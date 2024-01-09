@@ -1,0 +1,13 @@
+#!/bin/sh
+# 21-usr-basename
+# shellcheck enable=all
+_DISPLAYS=$(( _DISPLAYS + 1 ))
+export _DISPLAYS
+eval "
+DISP${_DISPLAYS}(){
+	curDisplay=${_DISPLAYS}
+	export curDisplay
+	PS1='[0;4\${COL0};30m \$(whoami) [4\${COL1};3\${COL0}m[30m \$(basename \"\$(pwd)\" ) [0;3\${COL1}m[0m '
+}
+export DISP${_DISPLAYS}
+"

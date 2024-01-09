@@ -1,0 +1,2 @@
+#!/bin/sh
+echo dex $(/home/.config/i3/dmenu_path | dmenu -i -sb \#f5a9b8 -sf \#ffffff -nb \#5bcefa -nf \#005fff | /home/.config/i3/post_dmenu) | xargs i3-msg -- exec --no-startup-id 

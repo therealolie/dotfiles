@@ -1,0 +1,27 @@
+#!/bin/sh
+# vim:ft=bash
+# shellcheck enable=all
+lesson_time(){
+	day="$(date +%a)"
+	[ "${day}" = "Sat" ] || [ "${day}" = "Sun" ] && return
+	while
+		time="$(date +%s)"
+		time="$(( ( time + 60 + 3600 ) % 86400 ))"
+		[ "${time}" -ge 28800 ] &&
+		for x in 31500 34800 38100 41400 44700 48000 51000 57000; do
+			x="$(( x - time	))"
+			if [ "${x}" -ge 0 ]; then
+				printf "[s[1;%dH%4s[u" "$(( COLUMNS - 3 ))" "${x}"
+				break
+			fi
+		done
+		unset data
+		unset oldstty
+		unset time
+		
+		[ -z "$1" ]
+	do
+		sleep 0.2
+	done
+}
+lesson_time "" &

@@ -1,0 +1,15 @@
+#!/bin/sh
+# 00-colors
+# shellcheck enable=all
+COLORS=4
+export COLORS
+COL0="8;2;91;206;250"
+export COL0
+COL1="8;2;245;169;184"
+export COL1
+COL2="7"
+export COL2
+COL3="${COL1}"
+export COL3
+EMOJI='🌸'
+export EMOJI

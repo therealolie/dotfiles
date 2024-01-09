@@ -1,0 +1,14 @@
+#!/bin/sh
+# shellcheck enable=all
+launch(){
+	DISPLAY=:0
+	export DISPLAY
+	for x in "$@"; do
+		file=""
+		for y in "${HOME}/.local/share/applications" "/usr/share/applications" "/var/lib/flatpak/exports/share/applications"; do
+			[ -f "${y}/${x}.desktop" ] && file="${y}/${x}.desktop"
+		done
+		[ -z "${file}" ] && echo "ERROR: app \"${x}\" not found!" || dex "${file}" >/dev/null 2>&1
+	done
+}
+export launch

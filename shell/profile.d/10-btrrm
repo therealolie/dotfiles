@@ -1,0 +1,46 @@
+#!/bin/sh
+# 10-btrrm
+# vim:ft=bash
+# shellcheck enable=all
+alias rm='btrrm'
+btrrm(){
+	#change this to move the trash folder
+	trash="${HOME}/.trash"
+	force=0
+	perm=0
+	for file in "$@"; do
+		if [ "${file}" = "-p" ]; then
+			printf "Permamently delete files? [yn]" > /dev/tty
+			read -r inp < /dev/tty
+			[ "${inp}" = "n" ] && exit 1
+			force=1
+			perm=1
+			continue
+		fi
+		echo "${file}" | grep "^/" || file="${PWD}/${file}"
+		[ ! -e "${file}" ] && [ ! -h "${file}" ] && continue
+		if { echo "${file}" | grep -qF "${trash}"; } || [ "${perm}" = 1 ]; then
+			[ "${force}" = 0 ] && {
+				printf "Permamently delete \"%s\"? [yan]" "${file}" > /dev/tty
+				read -r inp < /dev/tty
+				[ "${inp}" = "a" ] && force=1 && echo > /dev/tty
+			}
+			[ "${force}" = 1 ] || [ -z "${inp}" ] || { echo > /dev/tty && [ "${inp}" = "y" ]; }  && \rm -rdf "${file}"
+			continue
+		fi
+		[ ! -e "${file}" ] && continue
+		suffix=''
+		try_numb=0
+		while [ -e "${trash}/$(basename "${file}")${suffix}" ]; do
+			try_numb=$(( try_numb + 1 ))
+			suffix=" (${try_numb})"
+		done
+		mv "${file}" "${trash}/$(basename "${file}")${suffix}"
+	done
+	unset force
+	unset suffix
+	unset try_numb
+	unset trash
+	unset file
+	unset inp
+}

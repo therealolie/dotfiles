@@ -1,0 +1,11 @@
+#!/bin/sh
+# shellcheck enable=all
+clipboard(){
+	if [ -t 0 ]; then
+		wl-paste
+	else
+		wl-copy
+	fi
+}
+alias clip="clipboard"
+export clipboard

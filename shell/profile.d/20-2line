@@ -1,0 +1,15 @@
+#!/bin/sh
+# 20-2line
+# shellcheck enable=all
+_DISPLAYS=$(( _DISPLAYS + 1 ))
+export _DISPLAYS
+eval "
+DISP${_DISPLAYS}(){
+	curDisplay=${_DISPLAYS}
+	export curDisplay
+	PS1='[0m
+╭──── [0;95m\$(basename \"\$(pwd)\")[0m
+╰─ \${EMOJI} '
+}
+export DISP${_DISPLAYS}
+"

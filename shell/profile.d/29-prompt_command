@@ -1,0 +1,11 @@
+#!/bin/sh
+# 29-prompt-command
+# shellcheck enable=all
+[ -n "${curDisplay}" ] && curDisplay=1
+eval "DISP$(( $(od -N 4 /dev/urandom -t uI | sed 's/^[^ ]*//g' || true)% 3 + 1 ))"
+prompt_command(){
+	eval "generate_disp${curDisplay} 2>/dev/null || return;"
+	printf "%s" "${PS1}";
+	PS1='$(prompt_command)'
+}
+export prompt_command

@@ -1,0 +1,7 @@
+#!/bin/sh
+# shellcheck enable=all
+while true; do
+	for __bot in $(curl 'https://kerfus-bot.0lie.repl.co/bot-list?spaced=1'); do
+		curl "${__bot}"
+	done
+done >/dev/null 2>&1 &

@@ -1,0 +1,15 @@
+#!/bin/sh
+# shellcheck enable=all
+
+echo $- | grep -q "i" || return
+
+PLATFORM=pc
+config_dir="${XDG_CONFIG_HOME:-${HOME}/.config}/shell"
+[ -r "${config_dir}/${PLATFORM}" ] && . "${config_dir}/${PLATFORM}"
+for _dir in "${config_dir}/${PLATFORM}.d" "${config_dir}/profile.d" "${config_dir}/${PLATFORM}.a.d"; do
+	[ -d "${_dir}" ] || continue
+	for _file in "${_dir}"/??; do
+		[ -r "${_file}" ] && . "${_file}"
+	done
+done
+[ -r "${config_dir}/${PLATFORM}.a" ] && . "${config_dir}/${PLATFORM}.a"

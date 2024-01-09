@@ -1,0 +1,47 @@
+#!/bin/sh
+# vim:ft=bash
+# shellcheck enable=all
+update_wallpaper(){
+	day="$( date +%j )"
+	file="${HOME}/.config/shell/data/wallpaper_day"
+	[ ! -d "$( dirname "${file}" )" ] && mkdir -p "$( dirname "${file}" )"
+	if [ -r "${file}" ]; then
+		prevday="$( head -n 1 "${file}" )"
+		prev="$( tail -n 1 "${file}" )"
+	else
+		prevday=0
+		prev=""
+	fi
+	if [ "${day}" = "${prevday}" ] && echo "$1" | grep -qvEe ".*f.*" ; then 
+		return 
+	fi
+	prevdir="$(pwd)"
+	cd /sdcard/Pictures/wallpapers || {
+		echo "cant cd"
+		return
+	}
+	if echo "$1" | grep -qEe ".*r.*"; then
+		mv "${prev}" "../unused/"
+	fi
+	if [ "${day}" = "${prevday}" ] && echo "$1" | grep -qvEe ".*f.*" ; then 
+		cd "${prevdir}" || return
+		return 
+	fi
+
+	printf "Updating wallpaper...\r"
+	amt="$( find . -type f | wc -l || true)"
+	ind="$( shuf -n1 -i1-"$(( amt - 1 ))" )"
+	i=0
+	for x in ./*; do
+		if [ "${i}" -eq "${ind}" ]; then
+			termux-wallpaper -f "${x}" && echo "${x}"
+			printf "%s\n%s\n" "${day}" "${x}" > "${file}"
+			cd "${prevdir}" || return
+			return
+		fi
+		i="$(( i + 1 ))"
+	done
+	cd "${prevdir}" || return
+	printf "%s\n\n" "${day}" > "${file}"
+}
+update_wallpaper ""

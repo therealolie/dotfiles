@@ -1,0 +1,18 @@
+#!/bin/sh
+# 09-ensure-variables
+# shellcheck enable=all
+[ -z "${_DISPLAYS}" ] && _DISPLAYS=0
+export _DISPLAYS
+[ -z "${EMOJI}" ] && EMOJI='🌸'
+export EMOJI
+[ -z "${COLORS}" ] && COLORS=1
+export COLORS
+_x=0
+while [ "${_x}" -lt "${COLORS}" ]; do
+	eval "_cur=\"\${COL${_x}}\""
+	[ -z "${_cur}" ] && eval "COL${_x}=\"7\""
+	eval "export COL${_x}"
+	_x=$(( _x + 1 )) 
+done
+unset _x
+unset _cur

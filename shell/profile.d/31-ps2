@@ -1,0 +1,5 @@
+#!/bin/sh
+# 31-ps2
+# shellcheck enable=all
+PS2="\${EMOJI}"
+export PS2

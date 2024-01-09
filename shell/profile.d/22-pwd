@@ -1,0 +1,35 @@
+#!/bin/sh
+# 22-pwd
+# shellcheck enable=all
+_DISPLAYS=$(( _DISPLAYS + 1 ))
+export _DISPLAYS
+eval "
+DISP${_DISPLAYS}(){
+	curDisplay=${_DISPLAYS}
+	PS1='\$(prompt_command)'
+}
+export DISP${_DISPLAYS}
+generate_disp${_DISPLAYS}(){
+	[ \"\${curDisplay}\" -eq ${_DISPLAYS} ] || return
+	PS1=\"[0;7;40;3\"
+	CUR=0
+	IFS=\"	\"
+	DIR=' / '\$(pwd | sed -e 's/\//\t/g')
+	DIR=\$(echo \"\${DIR}\" | sed -e 's/data\tdata\tcom.termux\tfiles\thome/home/')
+	amt=-1
+	for _ in \${DIR}; do amt=\$(( amt + 1 )); done
+	for dir in \${DIR}; do
+		IND=\$(( CUR % COLORS ))
+		next=' '\${dir}' '
+		[ \"\${CUR}\" != \"\${amt}\" ] && next=\$(echo \"\${dir}\" | cut -c -3)
+		eval \"COL=\\\"\\\${COL\${IND}}\\\"\"
+		PS1=\"\${PS1}\${COL}m[0;4\${COL};30m\${next}[3\${COL};4\"
+		CUR=\$(( CUR + 1 ))
+	done
+	IND=\$(( CUR % COLORS ))
+	eval \"COL=\\\"\\\${COL\${IND}}\\\"\"
+	PS1=\"\${PS1}0m[40;3\${COL}m \"
+}
+export generate_disp3
+"
+
