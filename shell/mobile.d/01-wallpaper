@@ -1,47 +1,83 @@
 #!/bin/sh
 # vim:ft=bash
 # shellcheck enable=all
+_set_wallpaper(){
+	sizex=1100
+	sizey=2240
+
+	cursize=$(identify $1 | cut -f3 -d\ )
+	curx=$(echo $cursize | cut -f1 -dx )
+	cury=$(echo $cursize | cut -f2 -dx )
+	min=$(( sizex * cury ))
+	temp=$(( sizey * curx ))
+	[ $temp -ge $min ] && min=$temp
+	outx=$((min / cury))
+	outy=$((min / curx))
+	px=$((sizex-(outx/2)))
+	py=$((sizey-(outy/2)))
+	[ $px -le 0 ] && px=0
+	[ $py -le 0 ] && py=0
+	magick -size $((sizex*2))x$((sizey*2)) xc:red -draw "image src $px,$py $outx,$outy $(basename $1)" $2
+	termux-wallpaper -f $2
+}
 update_wallpaper(){
-	day="$( date +%j )"
-	file="${HOME}/.config/shell/data/wallpaper_day"
-	[ ! -d "$( dirname "${file}" )" ] && mkdir -p "$( dirname "${file}" )"
+	echo "$1" | grep -qEeh && cat << EOF && return
+changes the wallpaper every hour,
+to a random one from /sdcard/Pictures/wallpapers
+options:
+	h - display this help message and exit
+	f - dont check for timer
+	r - move current to ../unused
+	s - print current's name
+	e - rEload the file
+examples:
+	update_wallpaper h - you just did this
+	update_wallpaper rf - remove the current wallpaper,
+		and select a new one.
+		(note: order doesnt matter,
+		"upd_wpp fr" does the same)
+EOF
+	day="$( date +%y%j%H )"
+	datafile="${HOME}/.config/shell/data/wallpaper_day"
+	[ ! -d "$( dirname "${datafile}" )" ] && mkdir -p "$( dirname "${datafile}" )"
 	if [ -r "${file}" ]; then
-		prevday="$( head -n 1 "${file}" )"
-		prev="$( tail -n 1 "${file}" )"
+		prevday="$( head -n 1 "${datafile}" )"
+		prev="$( tail -n 1 "${datafile}" )"
 	else
 		prevday=0
 		prev=""
 	fi
-	if [ "${day}" = "${prevday}" ] && echo "$1" | grep -qvEe ".*f.*" ; then 
-		return 
-	fi
+	echo "$1" | grep -qEes && echo "${prev}"
+	[ "${day}" = "${prevday}" ] && echo "$1" | grep -qvEe[efr] && return
 	prevdir="$(pwd)"
 	cd /sdcard/Pictures/wallpapers || {
 		echo "cant cd"
 		return
 	}
-	if echo "$1" | grep -qEe ".*r.*"; then
+	if echo "$1" | grep -qEer; then
 		mv "${prev}" "../unused/"
 	fi
-	if [ "${day}" = "${prevday}" ] && echo "$1" | grep -qvEe ".*f.*" ; then 
+	if [ "${day}" = "${prevday}" ] && echo "$1" | grep -qvEe[ef] ; then
 		cd "${prevdir}" || return
-		return 
+		return
 	fi
-
+	if echo "$1" | grep -qEee; then
+		fil="${prev}"
+	else
+		fil="$( find . -type f | shuf -n1 )"
+	fi
 	printf "Updating wallpaper...\r"
-	amt="$( find . -type f | wc -l || true)"
-	ind="$( shuf -n1 -i1-"$(( amt - 1 ))" )"
-	i=0
-	for x in ./*; do
-		if [ "${i}" -eq "${ind}" ]; then
-			termux-wallpaper -f "${x}" && echo "${x}"
-			printf "%s\n%s\n" "${day}" "${x}" > "${file}"
-			cd "${prevdir}" || return
-			return
-		fi
-		i="$(( i + 1 ))"
-	done
-	cd "${prevdir}" || return
-	printf "%s\n\n" "${day}" > "${file}"
+	_set_wallpaper $fil ./wallpaper.jpg && echo "${fil}"
+	printf "%s\n%s\n" "${day}" "${fil}" > "${datafile}"
+	cd "${prevdir}"
 }
 update_wallpaper ""
+alias updwpp=update_wallpaper
+_tmp(){
+	while true; do
+		update_wallpaper ""
+		sleep 60
+	done
+}
+_tmp >/dev/null & 
+unset _tmp

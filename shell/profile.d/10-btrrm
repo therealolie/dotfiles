@@ -1,6 +1,6 @@
 #!/bin/sh
 # 10-btrrm
-# vim:ft=bash
+# # vim:ft=bash
 # shellcheck enable=all
 alias rm='btrrm'
 btrrm(){

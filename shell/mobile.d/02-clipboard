@@ -2,9 +2,9 @@
 # shellcheck enable=all
 clipboard(){
 	if [ -t 0 ]; then
-		wl-paste
+		termux-clipboard-get
 	else
-		wl-copy
+		termux-clipboard-set
 	fi
 }
 alias clip="clipboard"

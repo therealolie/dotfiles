@@ -1,0 +1,5 @@
+#!/bin/sh
+# 05-www-home
+# shellcheck enable=all
+WWW_HOME='http://lite.duckduckgo.com/lite/'
+export WWW_HOME

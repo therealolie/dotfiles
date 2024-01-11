@@ -2,9 +2,9 @@
 # shellcheck enable=all
 clipboard(){
 	if [ -t 0 ]; then
-		wl-paste
+		xclip -se c -o
 	else
-		wl-copy
+		xclip -se c -i
 	fi
 }
 alias clip="clipboard"

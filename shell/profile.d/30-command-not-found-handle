@@ -3,12 +3,14 @@
 shell="$(basename "$(readlink -f "/proc/$$/exe" || true)")"
 export shell
 command_not_found_handle(){
-	_num=$(( $(cat "${config_dir}/cmd-not-found" 2>/dev/null || echo 0) % COLORS))
+	# shellcheck disable=SC2154
+	_num=$(( $(cat "${HOME}/../usr/tmp/cmd-not-found" 2>/dev/null || echo 0) % COLORS))
 	eval "col0=\"\${COL${_num}}\""
 	_num=$(( ( _num + 1 ) % COLORS ))
 	eval "col1=\"\${COL${_num}}\""
 	eval "col2=\"\${COL$(( ( _num + 1 ) % COLORS ))}\""
-	echo "${_num}" > "${config_dir}/cmd-not-found"
+	echo "${_num}" > "${HOME}/../usr/tmp/cmd-not-found"
+	# shellcheck disable=SC2154
 	echo "[4${col0};30m[30;4${col0}m ${shell} [3${col0};4${col1}m[30m $1 [3${col1};4${col2}m[30m Command Not Found [40;3${col2}m[0m"
 	unset _num
 	return 127

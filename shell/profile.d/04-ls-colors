@@ -1,0 +1,6 @@
+#!/bin/sh
+# 04-ls-colors
+# shellcheck enable=all
+# shellcheck disable=SC2154
+LS_COLORS="st=30;4${COL0}:no=3${COL1}:fi=1;3${COL1}:rs=0:di=3${COL0};1:ln=3${COL0};2:ex=1;3${COL2}:*.o=38;5;244:"
+export LS_COLORS

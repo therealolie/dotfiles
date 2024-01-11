@@ -2,11 +2,12 @@
 # 09-ensure-variables
 # shellcheck enable=all
 [ -z "${_DISPLAYS}" ] && _DISPLAYS=0
-export _DISPLAYS
 [ -z "${EMOJI}" ] && EMOJI='🌸'
 export EMOJI
 [ -z "${COLORS}" ] && COLORS=1
 export COLORS
+_DISPLAYS=0
+export _DISPLAYS
 _x=0
 while [ "${_x}" -lt "${COLORS}" ]; do
 	eval "_cur=\"\${COL${_x}}\""

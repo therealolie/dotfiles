@@ -1,0 +1,5 @@
+#!/bin/sh
+# 03-path
+# shellcheck enable=all
+PATH="/npbin:${PATH}:${HOME}/.local/bin:${HOME}/.local/bin/*:."
+export PATH

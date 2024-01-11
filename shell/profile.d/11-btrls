@@ -9,6 +9,7 @@ btrls(){
 		[ -z "${temp}" ] && temp="${t}" || temp="${temp}ə${t}"
 	done
 	IFS="ə";
+	#shellcheck disable=SC2086
 	\ls ${_ls_extra:-} --color=auto ${temp}
 }
 export btrls

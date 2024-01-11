@@ -6,7 +6,7 @@ lesson_time(){
 	[ "${day}" = "Sat" ] || [ "${day}" = "Sun" ] && return
 	while
 		time="$(date +%s)"
-		time="$(( ( time + 60 + 3600 ) % 86400 ))"
+		time="$(( ( time + 3600 ) % 86400 ))"
 		[ "${time}" -ge 28800 ] &&
 		for x in 31500 34800 38100 41400 44700 48000 51000 57000; do
 			x="$(( x - time	))"
