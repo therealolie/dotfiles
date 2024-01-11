@@ -17,7 +17,8 @@ _set_wallpaper(){
 	py=$((sizey-(outy/2)))
 	[ $px -le 0 ] && px=0
 	[ $py -le 0 ] && py=0
-	magick -size $((sizex*2))x$((sizey*2)) xc:red -draw "image src $px,$py $outx,$outy $(basename $1)" $2
+	magick $1 $2
+	magick -size $((sizex*2))x$((sizey*2)) xc:red -draw "image src $px,$py $outx,$outy $(basename $2)" $2
 	termux-wallpaper -f $2
 }
 update_wallpaper(){
@@ -40,7 +41,7 @@ EOF
 	day="$( date +%y%j%H )"
 	datafile="${HOME}/.config/shell/data/wallpaper_day"
 	[ ! -d "$( dirname "${datafile}" )" ] && mkdir -p "$( dirname "${datafile}" )"
-	if [ -r "${file}" ]; then
+	if [ -r "${datafile}" ]; then
 		prevday="$( head -n 1 "${datafile}" )"
 		prev="$( tail -n 1 "${datafile}" )"
 	else

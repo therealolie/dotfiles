@@ -12,4 +12,5 @@ if [ "${PLATFORM}" = PC ]; then
 	sudo cp ./misc/pl /usr/share/X11/xkb/symbols/pl
 	sudo cp ./misc/sudoers /etc/sudoers
 fi
+rm -f ~/.bashrc
 ln -s ~/.config/shell/profile ~/.bashrc
