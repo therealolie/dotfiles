@@ -6,7 +6,7 @@ if [ -d /system ]; then
 fi
 
 mkdir ~/.config -p
-cp -r ./shell ~/.config/
+cp -r ./config/* ~/.config
 if [ "${PLATFORM}" = PC ]; then
 	cp -r ./i3 ~/.config
 	sudo cp ./misc/pl /usr/share/X11/xkb/symbols/pl

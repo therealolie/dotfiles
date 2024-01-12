@@ -3,5 +3,6 @@
 
 _ls_extra="-rə--sort=width"
 alias share="termux-share -asend"
+alias noder="node ~/.config/node/repl.js"
 # shellcheck disable=SC3044
 pushd -n /sdcard >/dev/null

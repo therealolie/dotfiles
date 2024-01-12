@@ -24,4 +24,4 @@ lesson_time(){
 		sleep 0.2
 	done
 }
-lesson_time "" &
+#lesson_time "" &
