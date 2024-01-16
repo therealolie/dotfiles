@@ -5,24 +5,14 @@ _set_wallpaper(){
 	sizex=1100
 	sizey=2240
 
-	cursize=$(identify $1 | cut -f3 -d\ )
-	curx=$(echo $cursize | cut -f1 -dx )
-	cury=$(echo $cursize | cut -f2 -dx )
-	min=$(( sizex * cury ))
-	temp=$(( sizey * curx ))
-	[ $temp -ge $min ] && min=$temp
-	outx=$((min / cury))
-	outy=$((min / curx))
-	px=$((sizex-(outx/2)))
-	py=$((sizey-(outy/2)))
-	[ $px -le 0 ] && px=0
-	[ $py -le 0 ] && py=0
-	magick $1 $2
-	magick -size $((sizex*2))x$((sizey*2)) xc:red -draw "image src $px,$py $outx,$outy $(basename $2)" $2
+	magick -size $((sizex*2))x$((sizey*2)) xc:red \( "$1" -gravity center -geometry $sizex\x$sizey^ \) -composite $2
 	termux-wallpaper -f $2
+	rm -f $2
 }
 update_wallpaper(){
+	name=updwpp
 	echo "$1" | grep -qEeh && cat << EOF && return
+usage: $name [options]
 changes the wallpaper every hour,
 to a random one from /sdcard/Pictures/wallpapers
 options:
@@ -32,11 +22,11 @@ options:
 	s - print current's name
 	e - rEload the file
 examples:
-	update_wallpaper h - you just did this
-	update_wallpaper rf - remove the current wallpaper,
+	$name h - you just did this
+	$name rf - remove the current wallpaper,
 		and select a new one.
 		(note: order doesnt matter,
-		"upd_wpp fr" does the same)
+		"$name fr" does the same)
 EOF
 	day="$( date +%y%j%H )"
 	datafile="${HOME}/.config/shell/data/wallpaper_day"
@@ -56,6 +46,7 @@ EOF
 		return
 	}
 	if echo "$1" | grep -qEer; then
+		touch "${prev}"
 		mv "${prev}" "../unused/"
 	fi
 	if [ "${day}" = "${prevday}" ] && echo "$1" | grep -qvEe[ef] ; then
@@ -80,5 +71,5 @@ _tmp(){
 		sleep 60
 	done
 }
-_tmp >/dev/null & 
+_tmp &
 unset _tmp
