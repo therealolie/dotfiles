@@ -59,7 +59,7 @@ EOF
 		fil="$( find . -type f | shuf -n1 )"
 	fi
 	printf "Updating wallpaper...\r"
-	_set_wallpaper $fil ./wallpaper.jpg && echo "${fil}"
+	_set_wallpaper "$( basename "${fil}" )" wallpaper.jpg && echo "${fil}"
 	printf "%s\n%s\n" "${day}" "${fil}" > "${datafile}"
 	cd "${prevdir}"
 }
