@@ -5,12 +5,13 @@ _set_wallpaper(){
 	sizex=1100
 	sizey=2240
 
-	magick -size $((sizex*2))x$((sizey*2)) xc:red \( "$1" -gravity center -geometry $sizex\x$sizey^ \) -composite $2
-	termux-wallpaper -f $2
-	rm -f $2
+	magick -size $((sizex*2))x$((sizey*2)) xc:red \( "$1" -gravity center -geometry "${sizex}x${sizey}^" \) -composite "$2"
+	termux-wallpaper -f "$2"
+	rm -f "$2"
 }
 update_wallpaper(){
 	name=updwpp
+#shellcheck disable=SC2250
 	echo "$1" | grep -qEeh && cat << EOF && return
 usage: $name [options]
 changes the wallpaper every hour,
@@ -29,7 +30,7 @@ examples:
 		"$name fr" does the same)
 EOF
 	day="$( date +%y%j%H )"
-	datafile="${HOME}/.config/shell/data/wallpaper_day"
+	datafile="${XDG_CONFIG_HOME:-${HOME}/.config}/shell/data/wallpaper_day"
 	[ ! -d "$( dirname "${datafile}" )" ] && mkdir -p "$( dirname "${datafile}" )"
 	if [ -r "${datafile}" ]; then
 		prevday="$( head -n 1 "${datafile}" )"
@@ -61,7 +62,7 @@ EOF
 	printf "Updating wallpaper...\r"
 	_set_wallpaper "$( basename "${fil}" )" wallpaper.jpg && echo "${fil}"
 	printf "%s\n%s\n" "${day}" "${fil}" > "${datafile}"
-	cd "${prevdir}"
+	cd "${prevdir}" || return 
 }
 update_wallpaper ""
 alias updwpp=update_wallpaper
