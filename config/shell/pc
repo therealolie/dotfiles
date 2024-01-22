@@ -1,5 +1,5 @@
 #!/bin/sh
 # shellcheck enable=all
 
-export XDG_CURRENT_DESKTOP=sway
 alias ins='sudo pacman -S'
+export LIBVA_DRIVER_NAME=nvidia

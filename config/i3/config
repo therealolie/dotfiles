@@ -236,16 +236,16 @@ bar {
 ### Autostart {{{
 
 exec --no-startup-id /bin/kitty
-exec --no-startup-id /bin/vivaldi
-exec --no-startup-id /bin/vencord-desktop
+exec --no-startup-id /bin/librewolf
+exec --no-startup-id /bin/vesktop
 
 # }}}
 
 ### Automove windows {{{
 
-for_window [class="(?i)Vivaldi"] move container to workspace 2
+for_window [class="(?i)librewolf"] move container to workspace 2
 for_window [class="(?i)Discord"] move container to workspace 3
-for_window [class="(?i)Vencord"] move container to workspace 3
+for_window [class="(?i)vesktop"] move container to workspace 3
 for_window [class="(?i)Celeste"] move container to workspace 3
 for_window [class="(?i)Steam"] move container to workspace 5
 

@@ -1,0 +1,8 @@
+#!/bin/sh
+if [ ! -f /tmp/unicode ]; then
+	curl https://www.unicode.org/Public/UCD/latest/ucd/NamesList.txt | grep -Ee "^[0-9a-f]" > /tmp/unicode
+fi
+export IFS=$"	"
+grep -Ei $"^[0-9a-f]{4,}	.*$*" /tmp/unicode | while read h d; do
+	/usr/bin/printf "\U$(printf "%08x" 0x$h)\tU+%s\t%s\n" $h "$d"
+done

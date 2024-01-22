@@ -12,10 +12,9 @@ highlight Pmenu ctermbg=8
 set tabstop=4
 set shiftwidth=4
 
-nnoremap <c-e>e :vsplit $MYVIMRC<cr>
-nnoremap <c-e>s :w<cr>:source $MYVIMRC<cr>
-" nnoremap <c-e>f A //{<c-v>{{<esc>Bhh% <esc>Bhh%A //}<c-v>}}
-
-nnoremap <c-e>f $%A //}}}<esc>6h%A //{{{<esc>$za
+let mapleader = "\<C-e>"
+nnoremap <leader>e :vsplit $MYVIMRC<cr>
+nnoremap <leader>s :w<cr>:source $MYVIMRC<cr>
+nnoremap <leader>f $%A //}}}<esc>6h%A //{{{<esc>$za
 
 
