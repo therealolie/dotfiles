@@ -42,7 +42,7 @@ exec --no-startup-id setxkbmap pl
 
 # Basics: {{{
 
-bindsym $mod+F2 exec --no-startup-id "/bin/kitty vim ~/.config/i3/config; $msg reload"
+bindsym $mod+F2 exec --no-startup-id "/bin/kitty vim ~/dotfiles/i3/config; $msg reload"
 
 bindsym $mod+Return exec --no-startup-id $term
 
@@ -75,11 +75,11 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-bindsym $mod+Mod1+Right exec --no-startup-id "temp=$(echo \\"let data=$($msg -t get_workspaces);console.log(data.filter(e=>e.focused)[0].num+1)\\" | node -) && $msg workspace number $temp"
-bindsym $mod+Mod1+Left exec --no-startup-id "temp=$(echo \\"let data=$($msg -t get_workspaces);console.log(data.filter(e=>e.focused)[0].num-1)\\" | node -) && $msg workspace number $temp"
+bindsym $mod+Mod1+Right exec --no-startup-id "tmp=$(($($msg -t get_workspaces|jq '.[]|select(.focused).num')+1))&&$msg workspace number $tmp"
+bindsym $mod+Mod1+Left exec --no-startup-id  "tmp=$(($($msg -t get_workspaces|jq '.[]|select(.focused).num')-1))&&$msg workspace number $tmp"
 
-bindsym $mod+Ctrl+Right exec --no-startup-id "temp=$(echo \\"let data=$($msg -t get_workspaces);console.log(data.filter(e=>e.focused)[0].num+1)\\" | node -) && $msg move container to workspace number $temp && $msg workspace number $temp"
-bindsym $mod+Ctrl+Left exec --no-startup-id "temp=$(echo \\"let data=$($msg -t get_workspaces);console.log(data.filter(e=>e.focused)[0].num-1)\\" | node -) && $msg move container to workspace number $temp && $msg workspace number $temp"
+bindsym $mod+Ctrl+Right exec --no-startup-id "tmp=$(($($msg -t get_workspaces|jq '.[]|select(.focused).num')+1))&&$msg workspace number $tmp&&$msg workspace number $tmp"
+bindsym $mod+Ctrl+Left exec --no-startup-id "tmp=$(($($msg -t get_workspaces|jq '.[]|select(.focused).num')-1))&&$msg workspace number $tmp&&$msg workspace number $tmp"
 
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
