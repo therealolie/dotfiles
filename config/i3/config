@@ -78,8 +78,8 @@ bindsym $mod+Shift+Right move right
 bindsym $mod+Mod1+Right exec --no-startup-id "tmp=$(($($msg -t get_workspaces|jq '.[]|select(.focused).num')+1))&&$msg workspace number $tmp"
 bindsym $mod+Mod1+Left exec --no-startup-id  "tmp=$(($($msg -t get_workspaces|jq '.[]|select(.focused).num')-1))&&$msg workspace number $tmp"
 
-bindsym $mod+Ctrl+Right exec --no-startup-id "tmp=$(($($msg -t get_workspaces|jq '.[]|select(.focused).num')+1))&&$msg workspace number $tmp&&$msg workspace number $tmp"
-bindsym $mod+Ctrl+Left exec --no-startup-id "tmp=$(($($msg -t get_workspaces|jq '.[]|select(.focused).num')-1))&&$msg workspace number $tmp&&$msg workspace number $tmp"
+bindsym $mod+Ctrl+Right exec --no-startup-id "tmp=$(($($msg -t get_workspaces|jq '.[]|select(.focused).num')+1))&&$msg move container to workspace number $tmp&&$msg workspace number $tmp"
+bindsym $mod+Ctrl+Left exec --no-startup-id "tmp=$(($($msg -t get_workspaces|jq '.[]|select(.focused).num')-1))&&$msg move container to workspace number $tmp&&$msg workspace number $tmp"
 
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
@@ -245,8 +245,8 @@ exec --no-startup-id /bin/vesktop
 
 for_window [class="(?i)librewolf"] move container to workspace 2
 for_window [class="(?i)Discord"] move container to workspace 3
-for_window [class="(?i)vesktop"] move container to workspace 3
-for_window [class="(?i)Celeste"] move container to workspace 3
+for_window [class="(?i)Vesktop"] move container to workspace 3
+for_window [class="(?i)Celeste"] move container to workspace 4
 for_window [class="(?i)Steam"] move container to workspace 5
 
 # }}}
