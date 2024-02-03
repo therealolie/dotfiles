@@ -8,6 +8,7 @@ _set_wallpaper(){
 	magick -size $((sizex*2))x$((sizey*2)) xc:red \( "$1" -gravity center -geometry "${sizex}x${sizey}^" \) -composite "$2" || return "$?"
 	termux-wallpaper -f "$2" || return "$?"
 	mv "$2" "${HOME}/.trash/"
+	return 0
 }
 update_wallpaper(){
 	name=updwpp
@@ -67,7 +68,7 @@ EOF
 		fil="$( find . -type f | shuf -n1 )"
 	fi
 	printf "Updating wallpaper...\r"
-	while _set_wallpaper "$( basename "${fil}" )" wallpaper.jpg;do true;done
+	while if _set_wallpaper "$( basename "${fil}" )" wallpaper.jpg;then false;else true;fi;do true;done
 	echo "${fil}"
 	printf "%s\n%s\n" "${day}" "${fil}" > "${datafile}"
 	cd "${prevdir}" || return 
