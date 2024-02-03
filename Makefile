@@ -4,7 +4,8 @@ PLATFORM := $(shell [ -d /system ] && echo android || echo pc )
 default: ${PLATFORM} all
 
 
-android:
+android: all
+	sed -i -e 's/PLATFORM=pc/PLATFORM=mobile/' -- ~/.config/shell/profile
 
 
 pc:
