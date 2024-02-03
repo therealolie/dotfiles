@@ -5,9 +5,9 @@ _set_wallpaper(){
 	sizex=1100
 	sizey=2240
 
-	magick -size $((sizex*2))x$((sizey*2)) xc:red \( "$1" -gravity center -geometry "${sizex}x${sizey}^" \) -composite "$2"
-	termux-wallpaper -f "$2"
-	rm -f "$2"
+	magick -size $((sizex*2))x$((sizey*2)) xc:red \( "$1" -gravity center -geometry "${sizex}x${sizey}^" \) -composite "$2" || return "$?"
+	termux-wallpaper -f "$2" || return "$?"
+	mv "$2" "${HOME}/.trash/"
 }
 update_wallpaper(){
 	name=updwpp
@@ -17,11 +17,12 @@ usage: $name [options]
 changes the wallpaper every hour,
 to a random one from /sdcard/Pictures/wallpapers
 options:
-	h - display this help message and exit
+	h - display this Help message and exit
 	f - dont check for timer
 	r - move current to ../unused
-	s - print current's name
+	s - Show current's name
 	e - rEload the file
+	a - shAre file (termux-share)
 examples:
 	$name h - you just did this
 	$name rf - remove the current wallpaper,
@@ -40,7 +41,7 @@ EOF
 		prev=""
 	fi
 	echo "$1" | grep -qEes && echo "${prev}"
-	[ "${day}" = "${prevday}" ] && echo "$1" | grep -qvEe[efr] && return
+	[ "${day}" = "${prevday}" ] && echo "$1" | grep -qvEe[aefr] && return
 	prevdir="$(pwd)"
 	cd /sdcard/Pictures/wallpapers || {
 		echo "cant cd"
@@ -50,17 +51,24 @@ EOF
 		touch "${prev}"
 		mv "${prev}" "../unused/"
 	fi
-	if [ "${day}" = "${prevday}" ] && echo "$1" | grep -qvEe[ef] ; then
+	if [ "${day}" = "${prevday}" ] && echo "$1" | grep -qvEe[aef] ; then
 		cd "${prevdir}" || return
 		return
 	fi
+	if echo "$1" | grep -qEea; then
+		termux-share -asend "${prev}"
+		cd "${prevdir}" || return
+		return
+	fi
+
 	if echo "$1" | grep -qEee; then
 		fil="${prev}"
 	else
 		fil="$( find . -type f | shuf -n1 )"
 	fi
 	printf "Updating wallpaper...\r"
-	_set_wallpaper "$( basename "${fil}" )" wallpaper.jpg && echo "${fil}"
+	while _set_wallpaper "$( basename "${fil}" )" wallpaper.jpg;do true;done
+	echo "${fil}"
 	printf "%s\n%s\n" "${day}" "${fil}" > "${datafile}"
 	cd "${prevdir}" || return 
 }

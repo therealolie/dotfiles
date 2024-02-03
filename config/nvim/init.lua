@@ -54,6 +54,7 @@ require("lazy").setup({
 		'stevearc/conform.nvim',
 		opts = {},
 	},
+	--[=[
 	{
 		"neovim/nvim-lspconfig",
 		config = function()
@@ -61,6 +62,7 @@ require("lazy").setup({
 			require'lspconfig'.tsserver.setup{}
 		end,
 	},
+	--]=]
 	{
 		"hrsh7th/nvim-cmp",
 		event = "InsertEnter",
