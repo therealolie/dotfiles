@@ -8,6 +8,7 @@ btrrm(){
 	trash="${HOME}/.trash"
 	force=0
 	perm=0
+	
 	for file in "$@"; do
 		if [ "${file}" = "-p" ]; then
 			printf "Permamently delete files? [yn]" > /dev/tty
@@ -18,7 +19,10 @@ btrrm(){
 			continue
 		fi
 		echo "${file}" | grep "^/" || file="${PWD}/${file}"
-		[ ! -e "${file}" ] && [ ! -h "${file}" ] && continue
+		[ ! -e "${file}" ] && [ ! -h "${file}" ] && {
+			echo "no such file: ${file}"
+			return 1
+		}
 		if { echo "${file}" | grep -qF "${trash}"; } || [ "${perm}" = 1 ]; then
 			[ "${force}" = 0 ] && {
 				printf "Permamently delete \"%s\"? [yan]" "${file}" > /dev/tty
@@ -28,7 +32,6 @@ btrrm(){
 			[ "${force}" = 1 ] || [ -z "${inp}" ] || { echo > /dev/tty && [ "${inp}" = "y" ]; }  && \rm -rdf "${file}"
 			continue
 		fi
-		[ ! -e "${file}" ] && continue
 		suffix=''
 		try_numb=0
 		while [ -e "${trash}/$(basename "${file}")${suffix}" ]; do
