@@ -4,15 +4,16 @@
 _set_wallpaper(){
 	sizex=1100
 	sizey=2240
+	mkdir -p "${XDG_CONFIG_HOME:-${HOME}/.config}/shell/data/logs/wpp/"
 
-	magick -size $((sizex*2))x$((sizey*2)) xc:red \( "$1" -gravity center -geometry "${sizex}x${sizey}^" \) -composite "$2" || return "$?"
-	termux-wallpaper -f "$2" || return "$?"
+	magick -size $((sizex*2))x$((sizey*2)) xc:red \( "$1" -gravity center -geometry "${sizex}x${sizey}^" \) -composite "$2" | tee "${XDG_CONFIG_HOME:-${HOME}/.config}/shell/data/logs/wpp/$(date +%s).log" || return 1
+	termux-wallpaper -f "$2" || return 1
 	mv "$2" "${HOME}/.trash/"
 	return 0
 }
 update_wallpaper(){
 	name=updwpp
-#shellcheck disable=SC2250
+	#shellcheck disable=SC2250
 	echo "$1" | grep -qEeh && cat << EOF && return
 usage: $name [options]
 changes the wallpaper every hour,
@@ -68,7 +69,7 @@ EOF
 		fil="$( find . -type f | shuf -n1 )"
 	fi
 	printf "Updating wallpaper...\r"
-	while if _set_wallpaper "$( basename "${fil}" )" wallpaper.jpg;then false;else true;fi;do true;done
+	while ! _set_wallpaper "$( basename "${fil}" )" "wallpaper-$(date +%s).jpg";do :;done
 	echo "${fil}"
 	printf "%s\n%s\n" "${day}" "${fil}" > "${datafile}"
 	cd "${prevdir}" || return 

@@ -8,8 +8,8 @@ highlight Folded ctermfg=12
 highlight Folded ctermbg=0
 highlight Comment ctermfg=12
 highlight Pmenu ctermbg=8
-set tabstop=4
-set shiftwidth=4
+set tabstop=8
+set shiftwidth=8
 set modelineexpr
 set foldmethod=syntax
 set foldnestmax=1
