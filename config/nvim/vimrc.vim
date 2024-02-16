@@ -19,4 +19,7 @@ nnoremap <leader>e :vsplit $MYVIMRC<cr>
 nnoremap <leader>s :w<cr>:source $MYVIMRC<cr>
 nnoremap <leader>f $%A //}}}<esc>6h%A //{{{<esc>$za
 
-
+nnoremap <C-H> <C-W>h
+nnoremap <C-J> <C-W>j
+nnoremap <C-K> <C-W>k
+nnoremap <C-L> <C-W>l

@@ -10,7 +10,7 @@ set $mod Mod4
 set $term kitty
 
 
-set $lock /home/.config/i3/createBg.sh
+set $lock ~/.config/i3/lock
 
 set $scratch backslash
 
@@ -18,7 +18,7 @@ set $scratch backslash
 
 ### Output configuration {{{
 
-exec --no-startup-id feh --bg-scale /home/DATA/pngs/background.png
+exec --no-startup-id feh --bg-scale ~/DATA/pngs/background.png
 
 default_border pixel 0
 
@@ -31,7 +31,6 @@ gaps inner 10
 exec xautolock \
 	-locker $lock -time 1\
 	-corners ---- -cornerdelay 1 -cornersize 5
-
 #}}}
 
 ### Input configuration {{{
@@ -42,7 +41,7 @@ exec --no-startup-id setxkbmap pl
 
 # Basics: {{{
 
-bindsym $mod+F2 exec --no-startup-id "/bin/kitty vim ~/dotfiles/i3/config; $msg reload"
+bindsym $mod+F2 exec --no-startup-id "/bin/kitty vim ~/dotfiles/config/i3/config; $msg reload"
 
 bindsym $mod+Return exec --no-startup-id $term
 
@@ -56,7 +55,6 @@ bindcode 107 exec --no-startup-id "cat $( echo $(ksnip -fs) | cut -b24- ) | xcli
 
 floating_modifier $mod
 
-bindsym $mod+x exec --no-startup-id "xrandr -y"
 bindsym $mod+Tab reload
 
 bindsym $mod+Ctrl+Escape exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3?' -B 'Yes, exit i3' '$msg exit'"
@@ -176,26 +174,98 @@ bindsym $mod+apostrophe mode "resize"
 
 # }}}
 
-# {{{ easy mode:e
+# {{{ one-hand
 
-bindsym $mod+Home mode "easy"
+bindsym $mod+O mode "one-hand"
 
-mode "easy" {
-	
-	bindsym Left focus left
-	bindsym Down focus down
-	bindsym Up focus up
-	bindsym Right focus right
+mode "one-hand" {
 
-	bindsym Next exec --no-startup-id "temp=$(echo \\"let data=$($msg -t get_workspaces);console.log(data.filter(e=>e.focused)[0].num+1)\\" | node -) && $msg workspace number $temp"
-	bindsym Delete exec "temp=$(echo \\"let data=$($msg -t get_workspaces);console.log(data.filter(e=>e.focused)[0].num-1)\\" | node -) && $msg workspace number $temp"
+# {{{ Basics
 
+bindsym $mod+f2 exec --no-startup-id "/bin/kitty vim ~/dotfiles/config/i3/config; $msg reload"
 
-	bindsym Escape mode "default"
+bindsym $mod+C exec --no-startup-id $term
+
+bindsym $mod+grave kill
+
+bindsym $mod+space exec --no-startup-id /home/.config/i3/menu
+
+bindsym $mod+escape exec --no-startup-id $lock
+
+bindsym $mod+tab reload
+
+bindsym $mod+ctrl+escape exec "i3-nagbar -t warning -m 'you pressed the exit shortcut. do you really want to exit i3?' -b 'yes, exit i3' '$msg exit'"
+
+# }}}
+
+# Moving around: {{{
+
+	bindsym $mod+h focus left
+	bindsym $mod+j focus down
+	bindsym $mod+k focus up
+	bindsym $mod+l focus right
+
+	bindsym $mod+Shift+h move left
+	bindsym $mod+Shift+j move down
+	bindsym $mod+Shift+k move up
+	bindsym $mod+Shift+l move right
+
+	bindsym $mod+Mod1+l exec --no-startup-id "tmp=$(($($msg -t get_workspaces|jq '.[]|select(.focused).num')+1))&&$msg workspace number $tmp"
+	bindsym $mod+Mod1+H exec --no-startup-id  "tmp=$(($($msg -t get_workspaces|jq '.[]|select(.focused).num')-1))&&$msg workspace number $tmp"
+
+	bindsym $mod+Ctrl+l exec --no-startup-id "tmp=$(($($msg -t get_workspaces|jq '.[]|select(.focused).num')+1))&&$msg move container to workspace number $tmp&&$msg workspace number $tmp"
+	bindsym $mod+Ctrl+h exec --no-startup-id "tmp=$(($($msg -t get_workspaces|jq '.[]|select(.focused).num')-1))&&$msg move container to workspace number $tmp&&$msg workspace number $tmp"
+
+	bindsym $mod+1 workspace number 1
+	bindsym $mod+2 workspace number 2
+	bindsym $mod+3 workspace number 3
+	bindsym $mod+4 workspace number 4
+	bindsym $mod+5 workspace number 5
+	bindsym $mod+6 workspace number 6
+	bindsym $mod+7 workspace number 7
+	bindsym $mod+8 workspace number 8
+	bindsym $mod+9 workspace number 9
+	bindsym $mod+0 workspace number 10
+
+	bindsym $mod+Ctrl+1 exec --no-startup-id "$msg move container to workspace number 1 && $msg workspace number 1"
+	bindsym $mod+Ctrl+2 exec --no-startup-id "$msg move container to workspace number 2 && $msg workspace number 2"
+	bindsym $mod+Ctrl+3 exec --no-startup-id "$msg move container to workspace number 3 && $msg workspace number 3"
+	bindsym $mod+Ctrl+4 exec --no-startup-id "$msg move container to workspace number 4 && $msg workspace number 4"
+	bindsym $mod+Ctrl+5 exec --no-startup-id "$msg move container to workspace number 5 && $msg workspace number 5"
+	bindsym $mod+Ctrl+6 exec --no-startup-id "$msg move container to workspace number 6 && $msg workspace number 6"
+	bindsym $mod+Ctrl+7 exec --no-startup-id "$msg move container to workspace number 7 && $msg workspace number 7"
+	bindsym $mod+Ctrl+8 exec --no-startup-id "$msg move container to workspace number 8 && $msg workspace number 8"
+	bindsym $mod+Ctrl+9 exec --no-startup-id "$msg move container to workspace number 9 && $msg workspace number 9"
+	bindsym $mod+Ctrl+0 exec --no-startup-id "$msg move container to workspace number 10 && $msg workspace number 10"
+
+# }}}
+
 	bindsym Return mode "default"
 	bindsym Home mode "default"
-	bindsym $mod+Home mode "default"
+	bindsym $mod+O mode "default"
 }
+# }}}
+
+# {{{ easy mode:e
+
+	bindsym $mod+Home mode "easy"
+
+		mode "easy" {
+
+			bindsym Left focus left
+				bindsym Down focus down
+				bindsym Up focus up
+				bindsym Right focus right
+
+				bindsym Next exec --no-startup-id "temp=$(echo \\"let data=$($msg -t get_workspaces);console.log(data.filter(e=>e.focused)[0].num+1)\\" | node -) && $msg workspace number $temp"
+				bindsym Delete exec "temp=$(echo \\"let data=$($msg -t get_workspaces);console.log(data.filter(e=>e.focused)[0].num-1)\\" | node -) && $msg workspace number $temp"
+
+
+				bindsym Escape mode "default"
+				bindsym Return mode "default"
+				bindsym Home mode "default"
+				bindsym $mod+Home mode "default"
+		}
 # }}}
 
 # }}}
@@ -204,8 +274,8 @@ mode "easy" {
 
 ### Colors {{{
 
-		#background #f5a9b8
-		#inactive_workspace #5bcefa #5bcefa #000000
+#background #f5a9b8
+#inactive_workspace #5bcefa #5bcefa #000000
 client.focused_inactive #f5a9b8 #f5a9b8 #ffffff #f5a9b8 #000000
 client.focused          #ffffff #ffffff #000000 #f5a9b8 #000000
 client.unfocused        #5bcefa #5bcefa #ffffff #f5a9b8 #000000
@@ -225,7 +295,7 @@ bar {
 
 	colors {
 		statusline #000000
-		background #5bcefa 
+		background #5bcefa
 		inactive_workspace #f5a9b8 #f5a9b8 #000000
 		focused_workspace #ffffff #ffffff #000000
 	}
