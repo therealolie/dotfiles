@@ -3,8 +3,9 @@
 
 echo $- | grep -q "i" || return
 
-PLATFORM=pc
-config_dir="${XDG_CONFIG_HOME:-${HOME}/.config}/shell"
+PLATFORM=mobile
+XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
+config_dir="${XDG_CONFIG_HOME}/shell"
 #shellcheck disable=SC1090
 . "${config_dir}/${PLATFORM}"
 for _dir in "${config_dir}/${PLATFORM}.d" "${config_dir}/profile.d"; do
