@@ -3,7 +3,7 @@
 
 echo $- | grep -q "i" || return
 
-PLATFORM=mobile
+PLATFORM=pc
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
 config_dir="${XDG_CONFIG_HOME}/shell"
 #shellcheck disable=SC1090
