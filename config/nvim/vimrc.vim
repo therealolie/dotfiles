@@ -13,6 +13,7 @@ set shiftwidth=8
 set modelineexpr
 set foldmethod=syntax
 set foldnestmax=1
+set noexpandtab
 
 let mapleader = "\<C-e>"
 nnoremap <leader>e :vsplit $MYVIMRC<cr>
