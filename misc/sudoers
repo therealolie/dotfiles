@@ -107,9 +107,8 @@ Defaults passprompt="[30;48;5;214m Password [38;5;214;40m[m "
 root ALL=(ALL:ALL) ALL
 
 ## Uncomment to allow members of group wheel to execute any command
-%wheel ALL=(ALL:ALL) PASSWD: sudoedit *, ^/[^n].*$, NOPASSWD: SETENV: ^/npbin/.*$
-
-ALL ALL=(root) NOPASSWD: ^/app/bin/run$
+#%wheel ALL=(ALL:ALL) PASSWD: sudoedit ^.*$, ^/[^n].*$, NOPASSWD: SETENV: ^/npbin/.*$
+%wheel ALL=(ALL:ALL) PASSWD: "sudoedit"
 ## Same thing without a password
 # %wheel ALL=(ALL:ALL) NOPASSWD: ALL
 
