@@ -1,6 +1,4 @@
 #!/bin/sh
-# 22-pwd
-# shellcheck enable=all
 _DISPLAYS=$(( _DISPLAYS + 1 ))
 export _DISPLAYS
 eval "

@@ -1,5 +1,4 @@
 #!/bin/sh
-# shellcheck enable=all
 clipboard(){
 	if [ -t 0 ]; then
 		xclip -se c -o

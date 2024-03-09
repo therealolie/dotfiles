@@ -1,5 +1,2 @@
 #!/bin/sh
-# shellcheck enable=all
-
 alias ins='sudo pacman -S'
-export LIBVA_DRIVER_NAME=nvidia

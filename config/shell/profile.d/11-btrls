@@ -1,6 +1,4 @@
 #!/bin/sh
-# 11-btrls
-# shellcheck enable=all
 alias ls=btrls
 btrls(){
 	temp=""
@@ -10,6 +8,6 @@ btrls(){
 	done
 	IFS="ə";
 	#shellcheck disable=SC2086
-	\ls ${_ls_extra:-} --color=auto ${temp}
+	lsd ${_ls_extra:-} --color=auto ${temp}
 }
 export btrls

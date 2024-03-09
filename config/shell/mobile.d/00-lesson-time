@@ -1,6 +1,5 @@
 #!/bin/sh
 # vim:ft=bash
-# shellcheck enable=all
 lesson_time(){
 	day="$(date +%a)"
 	[ "${day}" = "Sat" ] || [ "${day}" = "Sun" ] && return

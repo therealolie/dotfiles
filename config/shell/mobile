@@ -1,7 +1,6 @@
 #!/bin/sh
-# shellcheck enable=all
 
-_ls_extra="-rə--sort=width"
+_ls_extra=""
 alias share="termux-share -asend"
 alias noder="node ~/.config/node/repl.js"
 # shellcheck disable=SC3044

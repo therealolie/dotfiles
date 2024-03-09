@@ -1,6 +1,4 @@
 #!/bin/sh
-# 29-prompt-command
-# shellcheck enable=all
 [ -n "${curDisplay}" ] && curDisplay=1
 eval "DISP$(( $(od -N 4 /dev/urandom -t uI | sed 's/^[^ ]*//g' || true)% 3 + 1 ))"
 prompt_command(){

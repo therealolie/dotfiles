@@ -1,6 +1,4 @@
 #!/bin/sh
-# 20-2line
-# shellcheck enable=all
 _DISPLAYS=$(( _DISPLAYS + 1 ))
 export _DISPLAYS
 eval "

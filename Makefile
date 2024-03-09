@@ -22,6 +22,7 @@ else
 endif
 
 pc-a: all
+	cd ~/.config/i3/ && make
 
 
 all: ${PLATFORM}

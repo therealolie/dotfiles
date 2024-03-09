@@ -1,5 +1,4 @@
 #!/bin/sh
-# shellcheck enable=all
 shell="$(basename "$(readlink -f "/proc/$$/exe" || true)")"
 export shell
 command_not_found_handle(){

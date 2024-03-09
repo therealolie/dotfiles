@@ -1,4 +1,2 @@
 #!/bin/sh
-# shellcheck enable=all
-
 clear

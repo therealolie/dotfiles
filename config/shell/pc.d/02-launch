@@ -1,5 +1,4 @@
 #!/bin/sh
-# shellcheck enable=all
 launch(){
 	DISPLAY=:0
 	export DISPLAY

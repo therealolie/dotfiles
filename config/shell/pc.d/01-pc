@@ -1,6 +1,4 @@
 #!/bin/sh
-# 99-pc
-# shellcheck enable=all
 alias please=sudo
 alias suvim=sudoedit
 alias poweroff="sudo poweroff"

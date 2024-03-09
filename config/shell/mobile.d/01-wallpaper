@@ -1,6 +1,5 @@
 #!/bin/sh
 # vim:ft=bash
-# shellcheck enable=all
 _set_wallpaper(){
 	sizex=1100
 	sizey=2240

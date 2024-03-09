@@ -1,6 +1,4 @@
 #!/bin/sh
-# 00-colors
-# shellcheck enable=all
 COLORS=4
 export COLORS
 COL0="8;2;91;206;250"

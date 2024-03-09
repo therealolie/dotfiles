@@ -1,4 +1,2 @@
 #!/bin/sh
-# 02-umask
-# shellcheck enable=all
 umask 7

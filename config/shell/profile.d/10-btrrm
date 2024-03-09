@@ -1,7 +1,4 @@
 #!/bin/sh
-# 10-btrrm
-# # vim:ft=bash
-# shellcheck enable=all
 alias rm='btrrm'
 btrrm(){
 	#change this to move the trash folder

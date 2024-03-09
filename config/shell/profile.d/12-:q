@@ -1,4 +1,2 @@
 #!/bin/sh
-# 12-:q
-# shellcheck enable=all
 alias :q='exit'

@@ -1,47 +1,46 @@
-#!/b+n/sh
-# vim:ft=bash
+#!/bin/bash
 
 remind(){
-	MONTH="$1"
-	DAY="$2"
-	HOUR="$3"
-	MINU="$4"
-	TEXT="$5"
+	MONTH="${1}"
+	DAY="${2}"
+	HOUR="${3}"
+	MINU="${4}"
+	TEXT="${5}"
 	[ "$(date +%m)" -eq "${MONTH}" ] || return
 	[ "$(date +%d)" -eq "${DAY}" ] || return
 	if [ "$(date +%H)" -ge "${HOUR}" ] && [ "$(date +%M)" -ge "${MINU}" ]; then
 		echo here
-		rm -fv "$file"
+		rm -fv "${file}"
 		return
 	fi
 	for _ in {0..10}; do
-		printf "%s\n" "$5"
+		printf "%s\n" "${TEXT}"
 	done
 	{
 		sleep $(( ( ( HOUR - $(date +%H)) * 60 + MINU - $(date +%M) ) * 60 ))
-		termux-notification --sound -c "$5" --vibrate 500,1000,500
-		rm -fv "$file"
+		termux-notification --sound -c "${TEXT}" --vibrate 500,1000,500
+		rm -fv "${file}"
 	} & disown
 }
 
-mkdir -p "${XDG_CONFIG_HOME}/shell/data/reminders"
-for file in "${XDG_CONFIG_HOME}"/shell/data/reminders/*; do
-	[ -r "$file" ] ||  continue
-	read a b c d e < "$file"
-	remind "$a" "$b" "$c" "$d" "$e" "$file"
+mkdir -p "${XDG_CONFIG_HOME:-${HOME}/.config}/shell/data/reminders"
+for file in "${XDG_CONFIG_HOME:-${HOME}/.config}"/shell/data/reminders/*; do
+	[ -r "${file}" ] ||  continue
+	read -r a b c d e < "${file}"
+	remind "${a}" "${b}" "${c}" "${d}" "${e}" "${file}"
 done
 
 unset remind
 
 remind(){
 	read -rp "month:  " mo 
-	[ "$mo" ] || mo="$(date +%m)"
+	[ -n "${mo}" ] || mo="$(date +%m)"
 	read -rp "day:    " da
-	[ "$da" ] || da="$(date +%d)"
+	[ -n "${da}" ] || da="$(date +%d)"
 	read -rp "hour:   " ho
-	[ "$ho" ] || ho="$(date +%H)"
+	[ -n "${ho}" ] || ho="$(date +%H)"
 	read -rp "minute: " mi
-	[ "$mi" ] || mi="$(date +%M)"
+	[ -n "${mi}" ] || mi="$(date +%M)"
 	read -rp "msg: " msg
-	echo "$mo" "$da" "$ho" "$mi" "$msg" > "${XDG_CONFIG_HOME}/shell/data/reminders/$(date +%s)"
+	echo "${mo}" "${da}" "${ho}" "${mi}" "${msg}" > "${XDG_CONFIG_HOME:-${HOME}/.config}/shell/data/reminders/$(date +%s)"
 }

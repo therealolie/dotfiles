@@ -1,7 +1,4 @@
 #!/bin/sh
-# vim:ft=bash
-# 01-common
-# shellcheck enable=all
 # shellcheck disable=SC3044
 # shellcheck disable=SC3044
 shopt -u cmdhist

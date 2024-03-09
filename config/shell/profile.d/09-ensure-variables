@@ -1,6 +1,4 @@
 #!/bin/sh
-# 09-ensure-variables
-# shellcheck enable=all
 [ -z "${_DISPLAYS}" ] && _DISPLAYS=0
 [ -z "${EMOJI}" ] && EMOJI='🌸'
 export EMOJI
