@@ -3,7 +3,7 @@ alias ls=btrls
 btrls(){
 	temp=""
 	for x in "$@"; do
-		t="$(echo "${x}" | sed -E 's|^-(\w*)a|-\1A|g;s| |\ |g;s|^-(\w*)l|-\1gGh|g' || true)"
+		t="$(echo "${x}" | sed -E 's|^-(\w*)a|-\1A|g;s| |\ |g;s|^-(\w*)l|-\1lh|g' || true)"
 		[ -z "${temp}" ] && temp="${t}" || temp="${temp}ə${t}"
 	done
 	IFS="ə";

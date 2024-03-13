@@ -73,13 +73,11 @@ EOF
 	printf "%s\n%s\n" "${day}" "${fil}" > "${datafile}"
 	cd "${prevdir}" || return 
 }
-update_wallpaper ""
+#update_wallpaper ""
 alias updwpp=update_wallpaper
-_tmp(){
+{
 	while true; do
 		update_wallpaper ""
 		sleep 60
 	done
-}
-_tmp &
-unset _tmp
+} &
