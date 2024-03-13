@@ -1,4 +1,5 @@
 SUDO ?= $(shell [ "`id -u`" -eq 0 ] && echo true || echo false )
+CFLAGS ?= -Wall -Wextra -Weverything
 
 PLATFORM := $(shell [ -d /system ] && echo android || echo pc )
 
@@ -22,7 +23,7 @@ else
 endif
 
 pc-a: all
-	cd ~/.config/i3/ && make
+	cd ~/.config/i3/ && CFLAGS="${CFLAGS}" ${MAKE}
 
 
 all: ${PLATFORM}
@@ -33,4 +34,4 @@ all: ${PLATFORM}
 	ln -s ~/.config/shell/profile ~/.bashrc
 
 SUDO:
-	make SUDO=true
+	${MAKE} SUDO=true
