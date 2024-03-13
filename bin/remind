@@ -1,0 +1,53 @@
+#!/bin/bash
+
+set_reminder(){
+	MONTH="${1}"
+	DAY="${2}"
+	HOUR="${3}"
+	MINU="${4}"
+	TEXT="${5}"
+	[ "$(date +%m)" -eq "${MONTH}" ] || return
+	[ "$(date +%d)" -eq "${DAY}" ] || return
+	if [ "$(date +%H)" -ge "${HOUR}" ] && [ "$(date +%M)" -ge "${MINU}" ]; then
+		echo here
+		rm -fv "${file}"
+		return
+	fi
+	for _ in {0..10}; do
+		printf "%s\n" "${TEXT}"
+	done
+	{
+		sleep $(( ( ( HOUR - $(date +%H)) * 60 + MINU - $(date +%M) ) * 60 ))
+		termux-notification --sound -c "${TEXT}" --vibrate 500,1000,500
+		rm -fv "${file}"
+	} & disown
+}
+
+restart_reminders(){
+	mkdir -p "${XDG_CONFIG_HOME:-${HOME}/.config}/shell/data/reminders"
+	for file in "${XDG_CONFIG_HOME:-${HOME}/.config}"/shell/data/reminders/*; do
+		[ -r "${file}" ] ||  continue
+		read -r a b c d e < "${file}"
+		set_reminder "${a}" "${b}" "${c}" "${d}" "${e}" "${file}"
+	done
+}
+
+remind(){
+	read -rp "month:  " mo 
+	[ -n "${mo}" ] || mo="$(date +%m)"
+	read -rp "day:    " da
+	[ -n "${da}" ] || da="$(date +%d)"
+	read -rp "hour:   " ho
+	[ -n "${ho}" ] || ho="$(date +%H)"
+	read -rp "minute: " mi
+	[ -n "${mi}" ] || mi="$(date +%M)"
+	read -rp "msg:    " msg
+	echo "${mo}" "${da}" "${ho}" "${mi}" "${msg}" > "${XDG_CONFIG_HOME:-${HOME}/.config}/shell/data/reminders/$(date +%s)"
+	set_reminder "${mo}" "${da}" "${ho}" "${mi}" "${msg}"
+}
+
+if [ "$1" = "--restart" ]; then
+	restart_reminders
+	exit
+fi
+remind
