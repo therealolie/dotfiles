@@ -1,2 +1,0 @@
-#!/bin/sh
-alias clear='printf "[H[3J";\clear;echo "[38;2;245;169;184mby using this terminal you agree to the TOS and Privacy Policy[0m"'

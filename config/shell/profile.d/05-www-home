@@ -1,3 +1,0 @@
-#!/bin/sh
-WWW_HOME='http://lite.duckduckgo.com/lite/'
-export WWW_HOME

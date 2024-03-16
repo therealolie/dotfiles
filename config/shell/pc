@@ -1,2 +1,8 @@
 #!/bin/sh
 alias ins='sudo pacman -S'
+alias please=sudo
+alias suvim=sudoedit
+alias poweroff="sudo poweroff"
+alias reboot="sudo reboot"
+clear
+

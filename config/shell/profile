@@ -5,15 +5,12 @@ echo $- | grep -q "i" || return
 PLATFORM=pc
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
 config_dir="${XDG_CONFIG_HOME}/shell"
-#shellcheck disable=SC1090
 . "${config_dir}/${PLATFORM}"
 for _dir in "${config_dir}/${PLATFORM}.d" "${config_dir}/profile.d"; do
 	[ -d "${_dir}" ] &&
 		for _file in "${_dir}"/??*; do
-			#shellcheck disable=SC1090
 			[ -r "${_file}" ] && . "${_file}"
 		done
 done
 
-#shellcheck disable=SC1090
 [ -r "${config_dir}/${PLATFORM}.a" ] && . "${config_dir}/${PLATFORM}.a"

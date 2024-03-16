@@ -12,9 +12,8 @@ _set_wallpaper(){
 }
 update_wallpaper(){
 	name=updwpp
-	#shellcheck disable=SC2250
 	echo "$1" | grep -qEeh && cat << EOF && return
-usage: $name [options]
+usage: ${name} [options]
 changes the wallpaper every hour,
 to a random one from /sdcard/Pictures/wallpapers
 options:
@@ -25,11 +24,11 @@ options:
 	e - rEload the file
 	a - shAre file (termux-share)
 examples:
-	$name h - you just did this
-	$name rf - remove the current wallpaper,
+	${name} h - you just did this
+	${name} rf - remove the current wallpaper,
 		and select a new one.
 		(note: order doesnt matter,
-		"$name fr" does the same)
+		"${name} fr" does the same)
 EOF
 	day="$( date +%y%j%H )"
 	datafile="${XDG_CONFIG_HOME:-${HOME}/.config}/shell/data/wallpaper_day"
