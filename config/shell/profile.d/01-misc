@@ -1,19 +1,28 @@
 #!/bin/sh
+## vim:ft=bash
 shopt -u cmdhist
 shopt -s checkwinsize
 alias :q='exit'
 alias clear='printf "[H[3J";\clear;echo "[3${COL1}mby using this terminal you agree to the TOS and Privacy Policy[0m"'
 umask 7
-PATH="/npbin:${PATH}:${HOME}/.local/bin:${HOME}/.local/bin/*:."
-export PATH
+export PATH="/npbin:${PATH}:${HOME}/.local/bin:${HOME}/.local/bin/*:."
 #shellcheck disable=SC2154
-eval "LS_COLORS=\"st=30;4\${COL$(( 0 % COLORS ))}:no=3\${COL$(( 1 % COLORS ))}:fi=1;3\${COL$(( 1 % COLORS ))}:rs=0:di=3\${COL$(( 0 % COLORS ))};1:ln=3\${COL$(( 0 % COLORS ))};2:ex=1;3\${COL$(( 2 % COLORS ))}:\""
-export LS_COLORS
-WWW_HOME='http://lite.duckduckgo.com/lite/'
-export WWW_HOME
-PATH="/npbin:${PATH}:${HOME}/.local/bin:${HOME}/.local/bin/*:."
-export PATH
-LS_COLORS="st=30;4${COL0}:no=3${COL1}:fi=1;3${COL1}:rs=0:di=3${COL0};1:ln=3${COL0};2:ex=1;3${COL2}:*.o=38;5;244:"
-export LS_COLORS
-PS2="\${EMOJI}"
-export PS2
+eval "export LS_COLORS=\"st=30;4\${COL$(( 0 % COLORS ))}:no=3\${COL$(( 1 % COLORS ))}:fi=1;3\${COL$(( 1 % COLORS ))}:rs=0:di=3\${COL$(( 0 % COLORS ))};1:ln=3\${COL$(( 0 % COLORS ))};2:ex=1;3\${COL$(( 2 % COLORS ))}:\""
+export WWW_HOME='http://lite.duckduckgo.com/lite/'
+export PATH="/npbin:${PATH}:${HOME}/.local/bin:${HOME}/.local/bin/*:."
+export LS_COLORS="st=30;4${COL0}:no=3${COL1}:fi=1;3${COL1}:rs=0:di=3${COL0};1:ln=3${COL0};2:ex=1;3${COL2}:*.o=38;5;244:"
+export PS2="\${EMOJI}"
+add_git_aliasses(){
+	command -v git > /dev/null || return 1
+	IFS=$'\n'
+	for cmd in $(
+		git --help -a |
+		grep '^   [^ ]' | {
+		while IFS=' ' read -r a b;do
+			printf "%s\n" "$a"
+		done
+	}); do
+		alias "g$cmd"="git $cmd"
+done
+}
+add_git_aliasses
